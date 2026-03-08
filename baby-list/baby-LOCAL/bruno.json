@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "BABY_LIST -LOCAL",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

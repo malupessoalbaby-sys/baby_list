@@ -1,0 +1,25 @@
+meta {
+  name: Get Products NotBought
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://127.0.0.1:3001/api/products
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

@@ -1,0 +1,135 @@
+/* Navbar.css */
+
+/* Reset básico */
+.nav {
+  position: fixed;         /* fixa no topo */
+  top: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between; /* centraliza horizontalmente */
+  align-items: center;     /* centraliza verticalmente */
+  z-index: 1000;           /* sempre no topo */
+  /* left: 0; */
+  background: linear-gradient(90deg, #fce4ec, #f8bbd0); /* rosa suave gradient */
+  /* padding: 0 30px; */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* sombra suave */
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  transition: background 0.3s ease;
+}
+
+/* Links da Navbar */
+.nav a {
+  color: #880e4f;           /* rosa escuro elegante */
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: 600;
+  font-size: 20px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav h2{
+  padding-left: 40px;
+}
+
+/* Linha de baixo animada no hover */
+.nav a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -5px;
+  background-color: #ad1457; /* rosa médio */
+  transition: width 0.3s ease;
+}
+
+.nav a:hover {
+  color: #ad1457; /* muda a cor do texto */
+}
+
+.nav a:hover::after {
+  width: 100%; /* anima a linha de baixo */
+}
+
+/* Sombra suave ao passar o mouse no nav inteiro */
+.nav:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* -------------------
+   MENU RESPONSIVO
+   ------------------- */
+.nav .menu {
+  display: flex;
+  gap: 20px;
+}
+
+/* Hamburger para telas pequenas */
+.nav .hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.nav .hamburger span {
+  height: 3px;
+  width: 25px;
+  background: #880e4f;
+  margin-bottom: 5px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Menu escondido inicialmente em mobile */
+@media (max-width: 768px) {
+  .nav {
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  .nav .menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: linear-gradient(180deg, #fce4ec, #f8bbd0);
+    display: none; /* escondido até clicar */
+    gap: 10px;
+    padding: 10px 0;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .nav .menu.show {
+    display: flex; /* mostra o menu ao clicar */
+  }
+
+  .nav a {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .nav .hamburger {
+    display: flex;
+  }
+
+  .nav h2{
+  padding-right: 40px;
+}
+}
+
+/* Animação do hamburger quando ativo */
+.nav .hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.nav .hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav .hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}

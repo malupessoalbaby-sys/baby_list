@@ -1,0 +1,30 @@
+meta {
+  name: Update Products
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://127.0.0.1:3001/api/products/e93be0de-0b7a-4af0-aad8-ccbcfba0212d
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "fraldax",
+    "category": "higienex",
+    "price": "1",
+    "quantityNeeded": "100",
+    "quantityBought": "50"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

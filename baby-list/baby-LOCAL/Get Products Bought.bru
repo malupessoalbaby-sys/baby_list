@@ -1,0 +1,25 @@
+meta {
+  name: Get Products Bought
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://127.0.0.1:3001/api/products/purchased
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

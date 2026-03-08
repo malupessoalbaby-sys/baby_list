@@ -1,0 +1,44 @@
+.containerCards {
+  margin-bottom: 32px;
+  padding: 0px 20px;
+}
+
+.categoryTitle {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.productsRow {
+  display: flex;
+  gap: 12px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-behavior: smooth;
+  padding: 10px 10px;
+
+}
+
+/* impede os cards de encolher */
+.productsRow > * {
+  flex: 0 0 auto;
+}
+
+.productsRow::-webkit-scrollbar {
+  height: 6px;
+}
+
+.productsRow::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.productsRow {
+  scroll-snap-type: x mandatory;
+}
+
+.productsRow > * {
+  scroll-snap-align: start;
+}
