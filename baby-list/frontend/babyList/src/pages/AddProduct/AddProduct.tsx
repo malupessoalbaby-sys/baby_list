@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { api } from "../../services/api"
+import { createProduct, updateProduct } from "../../services/products"
 import type { Product } from "../../types/Product"
 import "./AddProduct.css"
 
@@ -15,11 +15,8 @@ export function AddProduct() {
   const [quantityBought, setQuantityBought] = useState<number | undefined>()
   const [category, setCategory] = useState("")
 
- // Categorias fixas
   const categories = ["Alimentos", "Bebidas", "Higiene", "Eletrônicos", "Roupas"]
 
-
-  // Preencher o formulário se estivermos editando
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.name)
@@ -30,56 +27,79 @@ export function AddProduct() {
     }
   }, [productToEdit])
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (productToEdit) {
-      // PATCH para edição
-      console.log(category)
-      await api.patch(`/products/${productToEdit.id}`, {
-        name,
-        price: Number(price),
-        quantityNeeded: Number(quantityNeeded),
-        quantityBought: Number(quantityBought),
-        category
-      })
-    } else {
-      // POST para criação
-      await api.post("/products", {
-        name,
-        price: Number(price),
-        quantityNeeded: Number(quantityNeeded),
-        quantityBought: Number(quantityBought),
-        category
-      })
-    }
+    try {
+      if (productToEdit) {
+        await updateProduct(productToEdit.id, {
+          name,
+          price,
+          quantityNeeded,
+          quantityBought,
+          category
+        })
+      } else {
+        await createProduct({
+          name,
+          price,
+          quantityNeeded: Number(quantityNeeded!),
+          quantityBought,
+          category
+        })
+      }
 
-    navigate("/")
+      navigate("/")
+    } catch (err) {
+      console.error(err)
+      alert("Erro ao salvar produto")
+    }
   }
 
   return (
- <form onSubmit={handleSubmit} className="form">
-  <h2>{productToEdit ? "Editar Produto" : "Adicionar Produto"}</h2>
+    <form onSubmit={handleSubmit} className="form">
+      <h2>{productToEdit ? "Editar Produto" : "Adicionar Produto"}</h2>
 
-  <div className="form-group">
-    <label htmlFor="name">Nome:</label>
-    <input id="name" value={name} onChange={e => setName(e.target.value)} required />
-  </div>
+      <div className="form-group">
+        <label htmlFor="name">Nome:</label>
+        <input
+          id="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+        />
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="price">Preço unitário:</label>
-    <input id="price" type="text" value={price} onChange={e => setPrice(Number(e.target.value))} />
-  </div>
+      <div className="form-group">
+        <label htmlFor="price">Preço unitário:</label>
+        <input
+          id="price"
+          type="number"
+          value={price}
+          onChange={e => setPrice(Number(e.target.value))}
+        />
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="quantityNeeded">Quantidade necessária:</label>
-    <input id="quantityNeeded" type="text" value={quantityNeeded} onChange={e => setQuantityNeeded(Number(e.target.value))} required />
-  </div>
+      <div className="form-group">
+        <label htmlFor="quantityNeeded">Quantidade necessária:</label>
+        <input
+          id="quantityNeeded"
+          type="number"
+          value={quantityNeeded}
+          onChange={e => setQuantityNeeded(Number(e.target.value))}
+          required
+        />
+      </div>
 
-  <div className="form-group">
-    <label htmlFor="quantityBought">Quantidade comprada (opcional):</label>
-    <input id="quantityBought" type="text" value={quantityBought} onChange={e => setQuantityBought(Number(e.target.value))} required />
-  </div>
+      <div className="form-group">
+        <label htmlFor="quantityBought">Quantidade comprada:</label>
+        <input
+          id="quantityBought"
+          type="number"
+          value={quantityBought}
+          onChange={e => setQuantityBought(Number(e.target.value))}
+        />
+      </div>
 
       <div className="form-group">
         <label htmlFor="category">Categoria:</label>
@@ -100,7 +120,9 @@ export function AddProduct() {
         </select>
       </div>
 
-  <button type="submit">{productToEdit ? "Salvar Alterações" : "Adicionar Produto"}</button>
-</form>
+      <button type="submit">
+        {productToEdit ? "Salvar Alterações" : "Adicionar Produto"}
+      </button>
+    </form>
   )
 }

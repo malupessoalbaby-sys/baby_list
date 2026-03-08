@@ -15,7 +15,6 @@ export function ProductCard({ product, onByAll, onDelete, hideStatus }: Props) {
   // const valorTotal = product.quantityBought / product.quantityNeeded
 
   const navigate = useNavigate()
-
   const handleEdit = () => {
     navigate("/add", { state: { productToEdit: product } })
   }

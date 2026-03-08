@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react"
-import { api } from "../../services/api"
+import {
+  getProducts,
+  updateProduct,
+  deleteProduct
+} from "../../services/products"
+
 import type { Product } from "../../types/Product"
 import { ProductCard } from "../../components/ProductCard/ProductCard"
-import "./Home.css";
+import "./Home.css"
 
 export function Home() {
   const [products, setProducts] = useState<Product[]>([])
 
   async function fetchProducts() {
-    const res = await api.get("/products")
-    setProducts(res.data)
+    const data = await getProducts()
+    setProducts(data)
   }
 
   const handleBuyAll = async (product: Product) => {
-    await api.patch(`/products/${product.id}`, { quantityBought: product.quantityNeeded })
+    await updateProduct(product.id, {
+      quantityBought: product.quantityNeeded,
+      price: product.price
+    })
+
     fetchProducts()
   }
 
   const handleDelete = async (id: string) => {
     try {
-      await api.delete(`/products/${id}`) 
+      await deleteProduct(id)
 
       setProducts(prev => prev.filter(p => p.id !== id))
-    } catch (err: any) {
+    } catch (err) {
       console.error(err)
-      const message = err.response?.data?.message || "Não foi possível deletar o produto"
-      alert(message)
+      alert("Não foi possível deletar o produto")
     }
   }
 
@@ -41,26 +49,23 @@ export function Home() {
   }, {} as Record<string, Product[]>)
 
   return (
-   
-<div>
-  {Object.entries(grouped).map(([category, items]) => (
-    <div className="containerCards" key={category}>
-      <p className="categoryTitle">{category}</p>
+    <div>
+      {Object.entries(grouped).map(([category, items]) => (
+        <div className="containerCards" key={category}>
+          <p className="categoryTitle">{category}</p>
 
-      <div className="productsRow">
-        {items.map((p) => (
-          <ProductCard
-            key={p.id}
-            product={p}
-            onByAll={() => handleBuyAll(p)}
-            onDelete={() => handleDelete(p.id)}
-          />
-        ))}
-      </div>
+          <div className="productsRow">
+            {items.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                onByAll={() => handleBuyAll(p)}
+                onDelete={() => handleDelete(p.id)}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
-  ))}
-</div>
-  
   )
 }
-
