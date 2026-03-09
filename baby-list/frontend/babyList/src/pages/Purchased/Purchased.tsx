@@ -42,6 +42,10 @@ export function Purchased() {
     return acc
   }, {} as Record<string, Product[]>)
 
+  if (products.length === 0) {
+    return <p className="notHasProdutsToPurchase">Não há produtos comprados cadastrados </p>
+  }
+
   return (
     <div>
       {Object.entries(grouped).map(([category, items]) => (

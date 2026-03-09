@@ -48,6 +48,10 @@ export function Home() {
     return acc
   }, {} as Record<string, Product[]>)
 
+  if (products.length === 0) {
+    return <p className="notHasProdutsToPurchase">Não há produtos cadastrados para serem comprados</p>
+  }
+
   return (
     <div>
       {Object.entries(grouped).map(([category, items]) => (
