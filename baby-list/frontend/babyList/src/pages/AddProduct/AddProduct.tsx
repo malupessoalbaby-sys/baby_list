@@ -15,7 +15,7 @@ export function AddProduct() {
   const [quantityBought, setQuantityBought] = useState<number | undefined>()
   const [category, setCategory] = useState("")
 
-  const categories = ["Alimentos", "Bebidas", "Higiene", "Eletrônicos", "Roupas"]
+  const categories = ["Roupas", "Fraldas", "Higiene", "Mamãe", "Remedios", "Móveis"]
 
   useEffect(() => {
     if (productToEdit) {

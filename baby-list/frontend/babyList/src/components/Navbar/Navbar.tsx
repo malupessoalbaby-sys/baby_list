@@ -21,7 +21,11 @@ export function Navbar() {
         <span></span>
       </div>
 
-      <h2>Baby List 👶</h2>
+      {/* <h2>Baby List 👶</h2> */}
+      <h2 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+  Baby List
+  <img src="/baby_logo.png" alt="Baby Icon" style={{ width: 30, height: 30 }} />
+</h2>
       {/* Menu de links */}
       <div className={`menu ${menuOpen ? "show" : ""}`}>
         <Link to="/" onClick={() => setMenuOpen(false)}>Produtos a Comprar</Link>
